@@ -2,6 +2,8 @@ import instaloader
 import os 
 import pandas as pd 
 from datetime import datetime 
+from dotenv import load_dotenv
+import time
 
 
 # config
@@ -9,15 +11,34 @@ hashtags = ["asoebi", "naijafashion", "naijastyles", "senatorwears"]
 output_dir = "scraped/ig"
 post_limit = 50 
 
+load_dotenv()
+
 os.makedirs(output_dir, exist_ok=True)
 
-L = instaloader.Instaloader(download_comments=False, save_metadata=False, download_video_thumbnails=False)
+L = instaloader.Instaloader(
+    download_comments=False,
+    save_metadata=False,
+    download_video_thumbnails=False
+    )
+
+USERNAME = os.getenv("IG_USERNAME")
+PASSWORD = os.getenv("IG_PASSWORD")
+
+try:
+    L.load_session_from_file(USERNAME)
+    print("Session loaded successfully.")
+except FileNotFoundError:
+    print("Session file not found. Logging in...")
+    L.login(USERNAME, PASSWORD)
+    L.save_session_to_file()
+    print("Login successful. Session saved.")
 
 csv_data = []
 
 for tag in hashtags:
     #loggers to trouble shoot
     print(f" scrapping {tag}")
+    time.sleep(10)
     
     tag_dir = os.path.join(output_dir, tag)
     os.makedirs(tag_dir, exist_ok=True)
