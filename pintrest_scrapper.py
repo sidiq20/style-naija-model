@@ -16,7 +16,7 @@ with sync_playwright() as p:
     page = browser.new_page()
     
     
-    print(f"🔍 Searching Pinterest for: {query}")
+    print(f"🔍= Searching Pinterest for: {query}")
     page = browser.new_page(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36")
     page.goto(
         f"https://www.pinterest.com/search/pins/?q={query.replace(' ', '%20')}", timeout=60000,
@@ -46,7 +46,7 @@ with sync_playwright() as p:
         try:
             filename = f"pintrest_{i}.jpg"
             response = requests.get(img_url)
-            response.raise_for_status()  # Raise error for bad status
+            response.raise_for_status()
             with open(os.path.join(output_dir, filename), "wb") as f:
                 f.write(response.content)
             

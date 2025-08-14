@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 import time
 
 
-# config
 hashtags = ["asoebi", "naijafashion", "naijastyles", "senatorwears"]
 output_dir = "scraped/ig"
 post_limit = 50 
@@ -15,28 +14,19 @@ load_dotenv()
 
 os.makedirs(output_dir, exist_ok=True)
 
-L = instaloader.Instaloader(
-    download_comments=False,
-    save_metadata=False,
-    download_video_thumbnails=False
-    )
+L = instaloader.Instaloader()
 
 USERNAME = os.getenv("IG_USERNAME")
 PASSWORD = os.getenv("IG_PASSWORD")
 
-try:
-    L.load_session_from_file(USERNAME)
-    print("Session loaded successfully.")
-except FileNotFoundError:
-    print("Session file not found. Logging in...")
-    L.login(USERNAME, PASSWORD)
-    L.save_session_to_file()
-    print("Login successful. Session saved.")
+print("Logging in with fresh credentials...")
+L.login(USERNAME, PASSWORD)
+L.save_session_to_file()
+
 
 csv_data = []
 
 for tag in hashtags:
-    #loggers to trouble shoot
     print(f" scrapping {tag}")
     time.sleep(10)
     
@@ -80,6 +70,6 @@ df = pd.DataFrame(csv_data)
 csv_data = os.path.join(output_dir, "instagram_scraped_data.csv")
 df.to_csv(csv_data, index=False, encoding="utf-8")
 
-print(f"\n✅ Done. Scraped {len(df)} posts.")
+print(f"\n Done. Scraped {len(df)} posts.")
 print(f" Images saved to: {output_dir}")
 print(f" metadata csv: {csv_data}")

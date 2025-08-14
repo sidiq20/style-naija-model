@@ -51,4 +51,4 @@ for link in links:
     
 df = pd.DataFrame(result)
 df.to_csv(os.path.join(output_dir, "bellanaija_scraped_data.csv"), index=False)
-print("✅ Done. Scraped blog images and saved metadata.")
+print(" Done. Scraped blog images and saved metadata.")
