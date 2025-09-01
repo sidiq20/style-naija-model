@@ -1,0 +1,14 @@
+{
+    "image": "/data/upload/1/c2c0fb30-asoebi_9.jpg",
+    "fabric_image": null,
+    "gender": "Female",
+    "age_group": "Youth",
+    "skin_tone": "Medium",
+    "body_shape": "Hourglass",
+    "event": "Yoruba Wedding",
+    "fabric_type": "Lace",
+    "style": "Gown",
+    "accessories": ["Gele", "Necklace (Coral)", "Purse", "Bracelets", "Earrings"],
+    "caption": "light-skinned in youth in lace gown for a wedding ",
+    "prompt": "a style for a wedding for a light skinned lady "
+}

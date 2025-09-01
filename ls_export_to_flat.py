@@ -1,6 +1,6 @@
 import json, sys, pathlib
 
-infile = sys.argv[1]  # label_studio_export.json
+infile = sys.argv[1]  
 outfile = pathlib.Path(infile).with_name("flat_dataset.jsonl")
 
 def get_choice(res, name):
