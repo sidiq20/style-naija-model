@@ -35,10 +35,9 @@ with sync_playwright() as p:
         for img in images:
             src = img.get_attribute("src")
             alt = img.get_attribute("alt")
-            # Filter out small placeholders (like 60x60, 236x, etc.)
             if src and "236x" not in src and "60x60" not in src:
                 image_url.add((src, alt or ""))
-            if len(image_url) >= limit * 2:  # collect extra, since we'll filter later
+            if len(image_url) >= limit * 2: 
                 break 
             
     browser.close()
@@ -51,17 +50,14 @@ with sync_playwright() as p:
             response = requests.get(img_url, timeout=10)
             response.raise_for_status()
 
-            # Check file size (must be ≥120 KB)
             if len(response.content) < 120 * 1024:
                 continue  
 
-            # Check resolution
             img = Image.open(BytesIO(response.content))
             width, height = img.size
             if width < 1000 or height < 1920:
                 continue  
 
-            # Save only valid images
             filename = f"pinterest_{i}.jpg"
             with open(os.path.join(output_dir, filename), "wb") as f:
                 f.write(response.content)
@@ -77,7 +73,6 @@ with sync_playwright() as p:
         except Exception as e:
             print(f"⚠️ Error downloading {img_url}: {e}")
 
-# Save metadata
 df = pd.DataFrame(valid_images)
 df.to_csv(os.path.join(output_dir, "pinterest_scraped_data.csv"), index=False)
 print(f"✅ Done. {len(valid_images)} valid images saved.")
